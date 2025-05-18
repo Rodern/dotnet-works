@@ -1,7 +1,163 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<PageTitle>@AppInfo.Name - @(nameof(Products))</PageTitle>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+<div class="header px-4">
+	<a href="/" class="home-link flex flex-nowrap justify-center items-center">
+		<img class="w-8 h-8" src="assets/logo.png" alt="Bridge Mall logo" />
+		<span class="brand-name text-[#737373]">Bridge Mall</span>
+	</a>
+
+	<div class="search-box-wrapper">
+
+		@* Search Box *@
+		<FluentSearch @bind-Value="_searchValue"
+		@bind-Value:after="OnSearch"
+		Immediate="true"
+		ImmediateDelay="500"
+		Placeholder="Search for name"
+		Class="search-box" />
+	</div>
+
+	<div class="user-peek" style="position: relative;">
+		<button class="user-btn" @onclick="ToggleUserMenu" @ref="userBtnRef">
+			<img src="assets/user.png" class="user-image" alt="user-image" />
+			<div class="user-name">
+				@(User == null ? "" : User.Name)
+			</div>
+		</button>
+	</div>
+
+</div>
+
+@if (showUserMenu)
+{
+	<div class="user-context-menu absolute z-50 bg-white shadow-lg rounded-lg py-3 px-5 mt-2 right-0 min-w-[220px] border border-gray-200"
+		 style="top:15%;right:4%;"
+	@onclick:stopPropagation>
+		<div class="mb-2">
+			<span class="block text-sm text-gray-500">Email</span>
+			<span class="block text-base font-medium text-gray-800">@((User?.Email) ?? "Not available")</span>
+		</div>
+		<button class="btn-primary w-full mt-3 py-2 rounded text-white font-semibold"
+				@onclick="Logout">
+			Logout
+		</button>
+	</div>
+}
+
+<article class="content px-4">
+
+	@if (Products == null || Products.Count == 0)
+	{
+		<div class="no-products flex flex-col items-center justify-center py-16 px-4 text-center">
+			<img src="assets/cart.png" alt="No products illustration" class="mb-6 max-w-xs w-full" style="opacity:0.8;" />
+			<h2 class="text-2xl font-semibold text-gray-700 mb-2">No Products Available</h2>
+			<p class="text-gray-500 mb-4">We're sorry, but there are currently no products to display. Please check back later or try adjusting your search.</p>
+		</div>
+	}
+	else
+	{
+		<div class="product-list">
+			@foreach (var product in Products)
+			{
+				<div class="product" id="prodcut_@(product.ProductId)">
+					<div class="product-image" style="background-image: url('@(product.Image)');" role="img" aria-label="Bag Rice"></div>
+					<div class="flex flex-col justify-between h-full py-2 px-1">
+						<h3 class="product-name truncate-1 text-lg font-semibold mb-1" title="Product name">@(product.Name)</h3>
+						<span class="price text-base font-bold text-[#0F6CBD] mb-2" aria-label="Price">XAF @(product.Price.ToString("N2"))</span>
+
+						<button class="">
+							<FluentIcon Value="new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Cart()" Color="Color.Custom" CustomColor="var(--app-primary-color)" />
+							Add to cart
+						</button>
+					</div>
+				</div>
+			}
+		</div>
+	}
+
+
+</article>
+
+<FluentDialogProvider />
+
+@code {
+	private string? _searchValue;
+	private int _immediateDelay;
+
+	private const string _defaultResultsText = "No results";
+	private List<string> _searchResults = DefaultResults();
+
+	private static List<string> DefaultResults() => new() { _defaultResultsText };
+
+	private void OnSearch()
+	{
+		Products = Mapper.Map<ObservableCollection<ProductDTO>>(ProductService.GetProducts(_searchValue));
+	}
+
+	UserDTO User = null!;
+	ObservableCollection<CategoryDTO> Categories = new();
+	ObservableCollection<ProductDTO> Products = new();
+
+	protected override async void OnAfterRender(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await InitializeUserData();
+			StateHasChanged();
+
+			// Register click-away handler for closing the menu
+			await JSRuntime.InvokeVoidAsync("eval", @"
+				document.addEventListener('click', function(e) {
+					if(document.querySelector('.user-context-menu')) {
+						Blazor.invokeMethodAsync('BridgeMall', 'HideUserMenu');
+					}
+				});
+			");
+		}
+
+		base.OnAfterRender(firstRender);
+	}
+
+	private async Task InitializeUserData()
+	{
+		string? encryptedToken = await LocalStorageService.GetItemAsStringAsync(AppInfo.TokenKey);
+		if (encryptedToken == null) return;
+
+		string token = await JSRuntime.InvokeAsync<string>("DecodeText", encryptedToken);
+		int loggedInUserId = int.Parse(await JSRuntime.InvokeAsync<string>("getUserIdFromToken", token));
+
+		User = Mapper.Map<UserDTO>(UserService.GetUser(loggedInUserId));
+
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Delay(100);
+		Categories = Mapper.Map<ObservableCollection<CategoryDTO>>(CategoryService.GetCategories());
+		Products = Mapper.Map<ObservableCollection<ProductDTO>>(ProductService.GetProducts());
+	}
+
+	private bool showUserMenu = false;
+	private ElementReference userBtnRef;
+
+	private void ToggleUserMenu()
+	{
+		showUserMenu = !showUserMenu;
+		StateHasChanged();
+	}
+
+	private async void Logout()
+	{
+		// Implement your logout logic here, for now just navigate to logout page or clear user session
+		await MessageBoxHelper.ShowMessageBoxAsync("Logout?", "You are signing out?", "Yes", "No", () =>
+		{
+			((CustomAuthenticationStateProvider)AuthStateProvider).MarkUserAsNotAuthenticated();
+			Navigation.NavigateTo("/", true);
+		});
+		showUserMenu = false;
+	}
+}

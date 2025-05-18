@@ -1,4 +1,6 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@rendermode InteractiveServer
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">BridgeMall</a>
     </div>
@@ -28,3 +30,14 @@
     </nav>
 </div>
 
+@code {
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+        bool val = await customAuthStateProvider.Authenticate();
+        if (!val) Navigation.NavigateTo("/account/auth/login", true);
+
+        base.OnAfterRender(firstRender);
+    }
+}

@@ -5,13 +5,13 @@ using System.Text;
 using BridgeMall.Models.DbValueTypes;
 using BridgeMall.Models.Relational;
 
-namespace BridgeMall.Models.Helpers
+namespace BridgeMall.Helpers
 {
 	public static class AuthenticationHelper
 	{
 		public static string AuthenticationKey { get; private set; } = "Skylon Authencation for account security and data protection with bla bla and bla bla bla";
 		private static int _keySize { get; } = 128;
-		private static int _iterations { get; }  = 350000;
+		private static int _iterations { get; } = 350000;
 		public static string GenerateGuidString()
 		{
 			return GenerateGuid().ToString();

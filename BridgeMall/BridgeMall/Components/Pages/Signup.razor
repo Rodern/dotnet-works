@@ -1,0 +1,209 @@
+﻿@page "/account/auth/register"
+@page "/account/auth/signup"
+@layout AuthLayout
+@rendermode InteractiveServer
+
+<PageTitle>@AppInfo.Name - @(nameof(Signup))</PageTitle>
+
+<!-- Container -->
+<div class="container flex w-[420px]">
+	<div class="w-[420px] bg-white p-5">
+		<h3 class="pt-4 text-2xl text-center">Create an Account!</h3>
+		<EditForm class="px-8 py-6 mb-4 bg-white rounded" Model="@SignupModel" OnInvalidSubmit="@SignUserUp"
+				  FormName="user_signup_entry" novalidate>
+			<DataAnnotationsValidator />
+			<div class="mb-4 md:mr-2 md:mb-0">
+				<label class="block mb-2 text-sm font-bold text-gray-700" for="@nameElementId">
+					Names
+				</label>
+				<FluentTextField @bind-Value="SignupModel.Name" Class="w-full outline-none text-sm leading-tight text-gray-700 border rounded appearance-none focus:outline-none focus:shadow-outline"
+								 Id="@nameElementId"
+								 Minlength="2"
+								 Maxlength="15"
+								 TextFieldType="TextFieldType.Text"
+								 Placeholder="John Doe"
+								 Spellcheck="false"
+								 Required />
+				<FluentValidationMessage For="@(() => SignupModel.Name)" />
+			</div>
+			<div class="mb-4">
+				<label class="block mb-2 text-sm font-bold text-gray-700" for="@emailElementId">
+					Email
+				</label>
+				<FluentTextField @bind-Value="SignupModel.Email" Class="w-full outline-none text-sm leading-tight text-gray-700 border rounded appearance-none focus:outline-none focus:shadow-outline"
+								 Id="@emailElementId"
+								 Pattern="@AppUIHelper.EmailRegex"
+								 TextFieldType="TextFieldType.Email"
+								 InputMode="InputMode.Email"
+								 Placeholder="sonia.ngwe@lofocam.cm"
+								 Spellcheck="true"
+								 Required />
+				<FluentValidationMessage For="@(() => SignupModel.Email)" />
+			</div>
+			<div class="mb-4 md:flex md:justify-between">
+				<div class="mb-4 md:mr-2 md:mb-0">
+					<label class="block mb-2 text-sm font-bold text-gray-700" for="@passwordElementId">
+						Password
+					</label>
+					<FluentTextField @bind-Value="SignupModel.Password" Class="w-full outline-none text-sm leading-tight text-gray-700 border rounded appearance-none focus:outline-none focus:shadow-outline"
+									 Id="@passwordElementId"
+									 Minlength="6"
+									 Maxlength="20"
+									 Pattern="@AppUIHelper.InputPasswordRegex"
+									 TextFieldType="TextFieldType.Password"
+									 Placeholder="***********"
+									 Spellcheck="false"
+									 Required />
+					<FluentValidationMessage For="@(() => SignupModel.Password)" />
+				</div>
+				<div class="md:ml-2">
+					<label class="block mb-2 text-sm font-bold text-gray-700" for="@cPasswordElementId">
+						Confirm Password
+					</label>
+					<FluentTextField @bind-Value="SignupModel.CPassword" Class="w-full outline-none text-sm leading-tight text-gray-700 border rounded appearance-none focus:outline-none focus:shadow-outline"
+									 Id="@cPasswordElementId"
+									 Minlength="6"
+									 Maxlength="20"
+									 Pattern="@AppUIHelper.InputPasswordRegex"
+									 TextFieldType="TextFieldType.Password"
+									 Placeholder="***********"
+									 Spellcheck="false"
+									 Required />
+					<FluentValidationMessage For="@(() => SignupModel.CPassword)" />
+				</div>
+			</div>
+			<div class="mb-6 text-center">
+				<button disabled="@IsButtonDisabled" @onclick="SignUserUp" id="signupBtn"
+						class="btn-default "
+						type="submit">
+
+					<svg id="spinner" class="h-5 w-5 hidden animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+						 viewBox="0 0 24 24">
+						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+						<path class="opacity-75" fill="currentColor"
+							  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+						</path>
+					</svg>
+
+					Signup
+				</button>
+			</div>
+			<hr class="mb-6 border-t" />
+			<div class="text-center font-[500] mt-2 text-[#737373]">
+				Already have an account?
+				<a class="inline-block text-[var(--app-secondary-color)] text-sm text-teal-500 align-baseline hover:text-teal-800"
+				   href="/account/auth/signin">Login
+				</a>
+			</div>
+
+		</EditForm>
+	</div>
+</div>
+
+<FluentDialogProvider />
+
+@code {
+	[SupplyParameterFromForm]
+	private SignUpModel SignupModel { get; set; } = new();
+
+	string nameElementId = "signupName",  emailElementId = "signupEmail", passwordElementId = "signupPassword", cPasswordElementId = "signupCPassword";
+	bool _isBtnDisabled = true;
+	bool IsButtonDisabled
+	{
+		get
+		{
+			return _isBtnDisabled;
+		}
+		set
+		{
+			_isBtnDisabled = value;
+			StateHasChanged();
+		}
+	}
+
+	[JSInvokable]
+	public void ChangeButtonState(bool formIsValid)
+	{
+		IsButtonDisabled = !formIsValid;
+	}
+
+	private async void SignUserUp()
+	{
+		if (SignupModel.Name.Count() < 2)
+		{
+			IsButtonDisabled = true;
+			return;
+		}
+		if (!Regex.IsMatch(SignupModel.Email, AppUIHelper.EmailRegex))
+		{
+			IsButtonDisabled = true;
+			return;
+		}
+		if (!Regex.IsMatch(SignupModel.Password, AppUIHelper.InputPasswordRegex))
+		{
+			IsButtonDisabled = true;
+			return;
+		}
+		if (!Regex.IsMatch(SignupModel.CPassword, AppUIHelper.InputPasswordRegex))
+		{
+			IsButtonDisabled = true;
+			return;
+		}
+		if (string.Compare(SignupModel.Password, SignupModel.CPassword) != 0)
+		{
+			await MessageBoxHelper.ShowErrorAsync("Passwords don't match please check again.");
+			return;
+		}
+
+		string query = "#signupBtn > #spinner";
+		IsButtonDisabled = true;
+		await JSRuntime.InvokeVoidAsync("ShowElement", query);
+
+
+
+		var signupResult = AuthService.SignUp(SignupModel);
+		if (!signupResult.Success)
+		{
+			await MessageBoxHelper.ShowMessageBoxAsync("Signup Failed!", signupResult.Message, "Try again", "Cancel", SignUserUp);
+			IsButtonDisabled = false;
+			await JSRuntime.InvokeVoidAsync("HideElement", query);
+			return;
+		}
+		var loginResult = AuthService.LoginUser(new()
+			{
+				Email = SignupModel.Email,
+				Password = SignupModel.Password,
+				RememberMe = true,
+				Code = ""
+			});
+		var authModel = JsonConvert.DeserializeObject<AuthenticatedModel>(loginResult.Data);
+		string encryptedToken = await JSRuntime.InvokeAsync<string>("EncodeText", authModel!.Token);
+		_ = LocalStorageService.SetItemAsStringAsync(AppInfo.TokenKey, encryptedToken);
+		_ = ((CustomAuthenticationStateProvider)AuthStateProvider).Authenticate(authModel.Token);
+		await MessageBoxHelper.ShowSuccessAsync(signupResult.Message);
+		IsButtonDisabled = false;
+		await JSRuntime.InvokeVoidAsync("HideElement", query);
+		if (Navigation.Uri.Contains("admin"))
+		{
+			Navigation.NavigateTo("/admin-panel", true);
+			return;
+		}
+		Navigation.NavigateTo("/");
+	}
+
+	protected override async void OnAfterRender(bool firstRender)
+	{
+		if (firstRender)
+		{
+			string[] inputElementIdList = new[] { nameElementId, emailElementId, passwordElementId, cPasswordElementId };
+			await JSRuntime.InvokeVoidAsync("CheckFormValidity", DotNetObjectReference.Create<Signup>(this), inputElementIdList);
+		}
+		base.OnAfterRender(firstRender);
+
+		var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+		bool val = await customAuthStateProvider.Authenticate();
+		if (val) Navigation.NavigateTo("/", true);
+
+		base.OnAfterRender(firstRender);
+	}
+}

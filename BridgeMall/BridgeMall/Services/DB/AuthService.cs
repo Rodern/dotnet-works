@@ -4,7 +4,6 @@ using BridgeMall.Models.CRUD;
 using BridgeMall.Models.Data;
 using BridgeMall.Models.DbValueTypes;
 using BridgeMall.Models.DTOs;
-using BridgeMall.Models.Helpers;
 using BridgeMall.Models.Relational;
 using BridgeMall.Services.Interfaces;
 using Microsoft.IdentityModel.Tokens;
@@ -15,6 +14,7 @@ using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Text;
 using BridgeMall.Contexts.RDB;
+using BridgeMall.Helpers;
 
 namespace BridgeMall.Services.DB
 {

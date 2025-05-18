@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BridgeMall.Models.Configuration;
+using Blazored.LocalStorage;
+using BridgeMall.Helpers;
+using BridgeMall.Authentication;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +19,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+builder.Services.AddHttpClient();
+
 
 // Add controllers to the container
 builder.Services.AddControllers();
+
+// Add Blazored.LocalStorage
+builder.Services.AddBlazoredLocalStorage();
+
+// Register Helper classes
+builder.Services.AddScoped<MessageBoxHelper>();
+
+// Add AuthenticationStateprovider
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
 // Register local services from referenced projects
 builder.Services.AddModels(builder.Configuration);
@@ -29,6 +45,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 
 // Register third-party services
+builder.Services.AddFluentUIComponents();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

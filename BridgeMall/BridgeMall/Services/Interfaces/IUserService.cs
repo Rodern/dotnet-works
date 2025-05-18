@@ -9,6 +9,7 @@ namespace BridgeMall.Services.Interfaces
         public ObservableCollection<User> GetUsers();
         public ObservableCollection<User> GetUsers(string? searchString);
         public User GetUser(int id);
+        public User GetUserByEmail(string email);
         public CrudResponse CreateUser(User user);
         public CrudResponse UpdateUser(User user);
         public CrudResponse DeleteUser(int id);

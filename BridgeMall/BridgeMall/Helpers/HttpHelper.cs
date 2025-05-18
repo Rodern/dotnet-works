@@ -2,13 +2,13 @@
 using System.Net;
 using System.Text;
 
-namespace BridgeMall.Models.Helpers
+namespace BridgeMall.Helpers
 {
 	public class HttpHelper
 	{
 		public HttpHelper()
 		{
-				
+
 		}
 
 		public static async Task<bool> CheckConnectionAsync(string url, HttpClient client, string token = "")
@@ -18,7 +18,7 @@ namespace BridgeMall.Models.Helpers
 			try
 			{
 				var result = await client.GetAsync(url);
-				if(result.StatusCode == HttpStatusCode.OK)
+				if (result.StatusCode == HttpStatusCode.OK)
 				{
 					return true;
 				}
@@ -50,7 +50,7 @@ namespace BridgeMall.Models.Helpers
 
 		public static async Task<RequestResponse> PostFormFileAsync(string url, MultipartFormDataContent formDataContent, HttpClient client, string token = "")
 		{
-			if(url.Contains("ngrok")) client.DefaultRequestHeaders.Add("ngrok-skip-browser-warning", "69420");
+			if (url.Contains("ngrok")) client.DefaultRequestHeaders.Add("ngrok-skip-browser-warning", "69420");
 			if (!string.IsNullOrEmpty(token)) client.DefaultRequestHeaders.Authorization = new("Bearer", token);
 			try
 			{
@@ -73,7 +73,7 @@ namespace BridgeMall.Models.Helpers
 			{
 #if DEBUG
 				return new(false, "Unable to connect to server:" + ex.Message);
-#else 
+#else
 				if (ex.Message.Contains("System.Net.WebException: 'SSL handshake aborted:") || ex.Message.Contains("System.Net.Http.HttpRequestException: 'The SSL connection could not be established"))
 				{
 					return new(false, "It seems you have no data bundle active.");
@@ -161,7 +161,7 @@ namespace BridgeMall.Models.Helpers
 				{
 					var res = new RequestResponse(true, "Success")
 					{
-						Data  = response.Content.Headers.ContentLength.ToString()!
+						Data = response.Content.Headers.ContentLength.ToString()!
 					};
 					return res;
 				}

@@ -1,10 +1,11 @@
 ﻿using Microsoft.JSInterop;
 
-namespace BridgeMall.Models.Helpers
+namespace BridgeMall.Helpers
 {
 	public static class DateTimeHelper
 	{
-		public static async Task<string> GetViewingDeviceTimeZoneViaJSInteropAsync(IJSRuntime JSRuntime) { 
+		public static async Task<string> GetViewingDeviceTimeZoneViaJSInteropAsync(IJSRuntime JSRuntime)
+		{
 			return await JSRuntime.InvokeAsync<string>("timezoneHelper.getTimeZone");
 		}
 

@@ -1,0 +1,15 @@
+﻿.page {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-image: url(assets/fluent_web_light_57fee22710b04cebe1d5.svg);
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+	.page ::deep .container {
+		border-radius: 1rem;
+		overflow: hidden;
+		box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.14);
+	}

@@ -1,0 +1,204 @@
+.body-frame {
+	height: -webkit-fill-available;
+	overflow: hidden;
+}
+
+.tab-contents {
+	height: -webkit-fill-available;
+	min-height: -webkit-fill-available;
+	max-height: -webkit-fill-available;
+}
+
+.tab-contents > div {
+	height: 100%;
+}
+
+.classes-frame > .body-frame > .sk-grid {
+	/* margin-block-start: 5vh; */
+}
+
+.sk-grid {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 1.5vh;
+	overflow: hidden auto;
+	height: 100%;
+	justify-content: space-between;
+	box-sizing: content-box;
+	padding-block: 1vh;
+	padding-inline: 12px;
+}
+
+.sk-grid .grid {
+	display: block;
+	min-width: 45vw;
+	max-width: 45vw;
+	min-height: 210px;
+	max-height: 210px;
+	overflow: hidden;
+}
+
+.sk-grid .cl-grid {
+	background-color: #EBEBF2;
+	padding: 10px;
+	row-gap: 6px;
+	height: fit-content;
+	min-height: fit-content;
+}
+
+.sk-grid .revision-grid-item {
+	/*height: 20vh;*/
+	min-height: 20vh;
+	padding: 10px;
+	border-radius: 5px;
+	row-gap: 6px;
+	background-color: #EBEBF2;
+}
+
+.sk-grid .cl-grid .text-wrapper, .sk-grid .cl-grid .content-wrapper .text-wrapper {
+	padding: 0px;
+}
+
+.sk-grid .cl-grid .content-wrapper {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 2vh;
+	box-sizing: border-box;
+	overflow: hidden;
+	padding-top: 1vh;
+}
+
+.grid-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.grid-header h4 {
+	font-size: .85rem;
+	font-weight: 800;
+	line-height: auto;
+}
+
+.sk-grid .cl-grid .text-wrapper h4 {
+	margin-bottom: 2px;
+}
+
+.content-wrapper .text-wrapper p {
+	margin-bottom: 3vh;
+}
+
+.sk-grid .grid-dot {
+	height: 15px;
+	width: 15px;/*
+	background-color: red;*/
+	border-radius: 50%;
+}
+
+.sk-grid .content-wrapper .grid-dot {
+	height: 18px;
+	width: 18px;/*
+	background-color: red;*/
+	border-radius: 50%;
+}
+
+.sk-grid .grid-link, .sk-grid .content-wrapper .grid-link {
+	text-decoration: underline;
+}
+
+.sk-grid .grid-link, .sk-grid .content-wrapper .grid-link-v2 {
+	text-decoration: none;
+	color: purple;
+}
+
+.sk-grid .tw-time, .sk-grid .content-wrapper .tw-time {
+	font-size: xx-small;
+}
+
+.sk-grid .grid-link, .sk-grid .tw-time, .sk-grid .content-wrapper .grid-link, .sk-grid .content-wrapper .tw-time {
+	color: purple;
+}
+
+.htw {
+	padding-inline: .5rem;
+	box-sizing: content-box;
+	overflow: hidden;
+}
+
+.cst {
+	font-size: smaller;
+	margin-bottom: 0px;
+}
+
+.toggleLock {
+	display: none;
+	position: absolute;
+	right: 3%;
+	top: 50%;
+	bottom: 50%;
+	background: white;
+}
+/*.InputPassWord:hover{
+	background: black;
+}*/
+
+.InputPassWord:focus > .toggleLock, .InputPassWord:focus-visible > .toggleLock, .InputPassWord:hover > .toggleLock {
+	display: block;
+}
+
+div.loading-frame {
+	height: 100%;
+	position: fixed;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.325);
+	-webkit-backdrop-filter: blur(2px);
+	backdrop-filter: blur(2px);
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: 99;
+	box-sizing: content-box;
+	overflow-x: auto;
+}
+
+.splash-view {
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.splash-logo {
+	width: 35vw;
+	animation: 1s linear 2.5s infinite forwards fadeInOut;
+}
+
+@keyframes fadeInOut {
+	0% {
+		transform: scale(1, 1);
+		opacity: 1;
+	}
+
+	50% {
+		transform: scale(0.9, 0.9);
+		opacity: 0.89;
+	}
+
+	100% {
+		transform: scale(1, 1);
+		opacity: 1;
+	}
+}
+
+
+/*  */
+.subjects-frame .body-frame .sk-grid .grid .grid-banner {
+	height: 20%;
+	max-height: 20%;
+}
+/*  */

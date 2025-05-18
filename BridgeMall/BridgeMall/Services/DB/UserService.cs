@@ -32,7 +32,12 @@ namespace BridgeMall.Services.DB
             return _crud.GetEntity<User>(id);
         }
 
-        public ObservableCollection<User> GetUsers()
+		public User GetUserByEmail(string email)
+		{
+			return _dbContext.Users.FirstOrDefault(x => x.Email == email)!;
+		}
+
+		public ObservableCollection<User> GetUsers()
         {
             return new(_dbContext.Users.ToList());
         }
@@ -45,7 +50,7 @@ namespace BridgeMall.Services.DB
             }
             else
             {
-                return new(_dbContext.Users.Where(x => x.Name.ToLower().Contains(searchString.ToLower())).ToList());
+                return new(_dbContext.Users.Where(x => x.Name.ToLower().Contains(searchString!.ToLower())).ToList());
             }
         }
 

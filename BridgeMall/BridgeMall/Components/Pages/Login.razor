@@ -1,0 +1,162 @@
+﻿@page "/account/auth/login"
+@page "/account/auth/signin"
+@page "/account/auth/admin/login"
+@page "/account/auth/admin/signin"
+@layout AuthLayout
+@rendermode InteractiveServer
+
+<PageTitle>@AppInfo.Name - @(nameof(Login))</PageTitle>
+
+<!-- Container -->
+<div class="container flex w-[420px]">
+	<div class="w-[420px] bg-white p-8 rounded-md">
+		<div class="flex flex-nowrap justify-center items-center">
+			<img class="w-8 h-8" src="assets/logo.png" alt="Bridge Mall logo" />
+			<span class="brand-name text-[#737373]">BridgeMall</span>
+		</div>
+		<h3 class="pt-4 mb-0 text-xl text-center">Sign in</h3>
+		<p class="text-sm text-center text-[#737373]">Use your BridgeMall account</p>
+		<EditForm class="px-8 py-6 bg-white rounded" Model="SigninModel" OnInvalidSubmit="@SignUserIn"
+				  FormName="user_signin_entry">
+			<div class="mb-4">
+				<label class="block mb-2 text-sm font-bold text-gray-700" for="phone">
+					Email
+				</label>
+				<FluentTextField @bind-Value="@SigninModel.Email" Class="w-full outline-none text-sm leading-tight text-gray-700 border rounded appearance-none focus:outline-none focus:shadow-outline"
+								 Id="@emailElementId"
+								 Maxlength="50"
+								 Pattern="@AppUIHelper.EmailRegex"
+								 TextFieldType="TextFieldType.Email"
+								 InputMode="InputMode.Email"
+								 Placeholder="john@example.com"
+								 Spellcheck="true" />
+				<p class="error-message text-xs italic text-red-500">Please enter your phone number.</p>
+			</div>
+			<div class="mb-4">
+				<label class="block mb-2 text-sm font-bold text-gray-700" for="password">
+					Password
+				</label>
+				<FluentTextField @bind-Value="@SigninModel.Password" Class="w-full outline-none text-sm leading-tight text-gray-700 border rounded appearance-none focus:outline-none focus:shadow-outline"
+								 Id="@passwordElementId"
+								 Minlength="6"
+								 Maxlength="20"
+								 TextFieldType="TextFieldType.Password"
+								 Placeholder="***********"
+								 Spellcheck="false" />
+				<p class="error-message text-xs italic text-red-500">Please enter your password.</p>
+			</div>
+			<DataAnnotationsValidator />
+			<div class="mb-6 text-center">
+				<button disabled="@IsButtonDisabled" @onclick="SignUserIn" id="loginBtn"
+						class="btn-default"
+						type="submit">
+
+					<svg id="spinner" class="h-5 w-5 hidden animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+						 viewBox="0 0 24 24">
+						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+						<path class="opacity-75" fill="currentColor"
+							  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+						</path>
+					</svg>
+
+					SignIn
+				</button>
+			</div>
+			<hr class="mb-6 border-t" />
+			<div class="text-center">
+				<a class="inline-block text-sm text-teal-500 align-baseline hover:text-teal-800"
+				   href="">
+					Forgot Password?
+				</a>
+			</div>
+			<div class="text-center font-[500] mt-2 text-[#737373]">
+				Don't have an account?
+				<a class="inline-block text-[var(--app-secondary-color)] text-sm text-teal-500 align-baseline hover:text-teal-800"
+				   href="/account/auth/register">
+					Signup
+				</a>
+			</div>
+		</EditForm>
+	</div>
+</div>
+
+<FluentDialogProvider />
+
+
+@code {
+	[SupplyParameterFromForm]
+	private LoginModel SigninModel { get; set; } = new();
+
+	string emailElementId = "loginEmailNumber", passwordElementId = "loginPassword";
+	bool _isBtnDisabled = true;
+	bool IsButtonDisabled
+	{
+		get
+		{
+			return _isBtnDisabled;
+		}
+		set
+		{
+			_isBtnDisabled = value;
+			StateHasChanged();
+		}
+	}
+
+	private async void OnInputChanged(string inputElementId)
+	{
+		IsButtonDisabled = await JSRuntime.InvokeAsync<bool>("IsInputValid", inputElementId);
+	}
+
+	[JSInvokable]
+	public void ChangeButtonState(bool formIsValid)
+	{
+		IsButtonDisabled = !formIsValid;
+	}
+
+	private async void SignUserIn()
+	{
+		string query = "#loginBtn > #spinner";
+		IsButtonDisabled = true;
+		await JSRuntime.InvokeVoidAsync("ShowElement", query);
+
+
+		var loginResult = AuthService.LoginUser(SigninModel);
+		if (!loginResult.Success)
+		{
+			await MessageBoxHelper.ShowMessageBoxAsync("Signin Failed!", loginResult.Message, "Try again", "Cancel", SignUserIn);
+			IsButtonDisabled = false;
+			await JSRuntime.InvokeVoidAsync("HideElement", query);
+			return;
+		}
+
+		var authModel = JsonConvert.DeserializeObject<AuthenticatedModel>(loginResult.Data);
+		string encryptedToken = await JSRuntime.InvokeAsync<string>("EncodeText", authModel!.Token);
+		_ = LocalStorageService.SetItemAsStringAsync(AppInfo.TokenKey, encryptedToken);
+		_ = ((CustomAuthenticationStateProvider)AuthStateProvider).Authenticate(authModel.Token);
+		await MessageBoxHelper.ShowSuccessAsync(loginResult.Message);
+		IsButtonDisabled = false;
+		await JSRuntime.InvokeVoidAsync("HideElement", query);
+		if (Navigation.Uri.Contains("admin"))
+		{
+			Navigation.NavigateTo("/admin-panel", true);
+			return;
+		}
+		Navigation.NavigateTo("/");
+	}
+
+	protected override async void OnAfterRender(bool firstRender)
+	{
+		if (firstRender)
+		{
+			string[] inputElementIdList = new[] { emailElementId, passwordElementId };
+			await JSRuntime.InvokeVoidAsync("CheckFormValidity", DotNetObjectReference.Create<Login>(this), inputElementIdList);
+		}
+		base.OnAfterRender(firstRender);
+
+		var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+		bool val = await customAuthStateProvider.Authenticate();
+		if (val) Navigation.NavigateTo("/", true);
+
+		base.OnAfterRender(firstRender);
+	}
+}

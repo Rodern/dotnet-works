@@ -1,0 +1,13 @@
+﻿@rendermode InteractiveServer
+
+@code {
+
+	protected override async void OnAfterRender(bool firstRender)
+	{
+		var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+		bool val = await customAuthStateProvider.Authenticate();
+		if (!val) Navigation.NavigateTo("/account/auth/login", true);
+
+		base.OnAfterRender(firstRender);
+	}
+}

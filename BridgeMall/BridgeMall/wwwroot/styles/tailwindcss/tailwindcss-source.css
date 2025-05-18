@@ -1,0 +1,371 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	font-family: 'Product Sans';
+}
+
+.header {
+	@apply flex h-16 min-h-16 flex-row flex-nowrap items-center justify-between overflow-hidden bg-white px-4 py-1 shadow;
+}
+
+	.header > .section {
+		@apply flex w-auto flex-row items-center;
+	}
+
+	.header.main-header {
+		@apply fixed;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		z-index: 90;
+	}
+
+.link {
+	@apply w-[fit-content] h-[fit-content] cursor-pointer select-none overflow-hidden;
+}
+
+.nav-link {
+	color: var(--app-primary-color);
+	@apply flex h-12 w-auto flex-row flex-nowrap items-center justify-evenly gap-2 p-1 font-bold no-underline hover:text-[var(--app-tertiary-color)] focus:text-teal-700; /*
+	@apply flex flex-row flex-nowrap gap-2 p-1 w-auto h-12 justify-evenly items-center font-bold no-underline text-teal-700 hover:bg-opacity-25 hover:bg-teal-600 hover:text-white focus:bg-teal-700;*/
+}
+
+	.nav-link:hover > svg {
+		/*background: var(--app-tertiary-color);*/
+		/*fill: var(--app-tertiary-color);
+		stroke: var(--app-tertiary-color);
+		
+	@apply stroke-[var(--app-tertiary-color)];*/
+	}
+
+
+.app-brand {
+	@apply flex items-center justify-center hover:opacity-75;
+}
+
+	.app-brand > img {
+		@apply h-12;
+	}
+
+.footer-section {
+	@apply gap-6 md:gap-0;
+}
+
+fluent-text-field:not([disabled]):active::after, fluent-text-field:not([disabled]):focus-within:not(:active)::after,
+fluent-text-area:not([disabled]):active::after, fluent-text-area:not([disabled]):focus-within:not(:active)::after {
+	@apply border-[--app-primary-color];
+}
+
+.selected::before {
+	@apply bg-[--app-primary-color];
+}
+
+fluent-text-field:invalid {
+	outline-width: 1px;
+	border-color: red;
+}
+
+fluent-text-field + .error-message {
+	display: none;
+}
+
+fluent-text-field:invalid + .error-message {
+	display: block;
+}
+
+button[disabled], button[disabled]:hover {
+	filter: grayscale(0.6);
+	cursor: not-allowed;
+}
+
+
+
+
+@media (min-width: 1048px) {
+	.container {
+		max-width: unset;
+	}
+}
+
+@media (min-width: 768px) {
+	.container {
+		max-width: unset;
+	}
+}
+
+@media (min-width: 640px) {
+	.container {
+		max-width: unset;
+	}
+}
+/****** App Button Styles - Start ******/
+.btn-default {
+	@apply bg-[var(--app-primary-color)] flex w-full h-[2.25rem] font-bold text-[0.875rem] flex-row items-center justify-center gap-3 rounded-[4px] border-none p-2 text-white outline-none;
+}
+
+	.btn-default:hover {
+		background-color: var(--app-primary-hover-color);
+	}
+
+	.btn-default:active {
+		background-color: var(--app-primary-focus-color);
+	}
+
+.btn[processing] > #spinner {
+	display: block;
+}
+/****** App Button Styles - End ******/
+
+
+/****** App Card Styles - Start ******/
+
+
+.card-shadow {
+	box-shadow: 0 .1875rem .4375rem 0 rgba(0, 0, 0, .13), 0 .0625rem .125rem 0 rgba(0, 0, 0, .11);
+}
+/****** App Card Styles - End ******/
+
+.object-image-preview {
+	border: 1px solid var(--app-primary-color);
+	@apply m-auto overflow-hidden rounded-md;
+}
+
+	.object-image-preview div {
+		max-height: 400px;
+		overflow-y: auto;
+		@apply m-4 flex flex-wrap justify-evenly gap-2;
+	}
+
+		.object-image-preview div > .preview {
+			@apply border-0 relative w-24 overflow-hidden rounded-[4px] p-0 hover:opacity-75 hover:shadow-md;
+		}
+
+			.object-image-preview div > .preview > button {
+				@apply border-0 flex h-full w-full cursor-pointer items-center p-0;
+			}
+
+			.object-image-preview div > .preview:hover > .delete {
+				display: block;
+			}
+
+			.object-image-preview div > .preview > .delete {
+				@apply absolute right-1 top-1 hidden p-2;
+			}
+
+			.object-image-preview div > .preview > button > img {
+				@apply m-0 w-full p-0;
+			}
+
+
+.l-bg {
+	background-color: var(--app-primary-color);
+}
+
+.side-bar-nav-link {
+	@apply border-l-4 relative flex h-11 flex-row items-center border-transparent pr-6 text-white no-underline hover:bg-[var(--app-secondary-color)] hover:text-white hover:border-blue-500 focus:outline-none dark:hover:bg-gray-600;
+}
+
+	.side-bar-nav-link[aria-current="page"] {
+		background-color: #ffffff41;
+	}
+
+	.side-bar-nav-link .icon-span {
+		@apply ml-4 inline-flex items-center justify-center;
+	}
+
+	.side-bar-nav-link .name-span {
+		@apply ml-2 truncate text-sm tracking-wide;
+	}
+
+
+
+.user-profile-svg {
+	fill: var(--app-primary-color);
+}
+
+
+/****** Object Cards ******/
+.object-list {
+	width: 100%;
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+	/* display: flex;
+	flex-direction: row;
+	flex-wrap: wrap; */
+	gap: 1.5rem clamp(1rem, 12vw + 0.5rem, 4rem);
+	justify-content: space-evenly;
+	overflow-x: hidden;
+	padding: 1.5rem;
+}
+
+@media (max-width: 1048px){
+	.object-list {
+		grid-template-columns: auto auto auto;
+	}
+}
+
+@media (max-width: 820px){
+	.object-list {
+		grid-template-columns: auto auto;
+	}
+}
+
+@media (max-width: 512px){
+	.object-list {
+		grid-template-columns: auto;
+	}
+}
+
+.object-card {
+	width: auto; /*240px;*/
+	height: 28rem;
+	border: 1px solid #dfdfdf;
+	border-radius: 2px;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+	.object-card .oc-slide-wrapper,
+	.oc-slide-wrapper {
+		width: 100%;
+		height: 36%;
+		min-height: 10rem;
+		display: flex;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.oc-slide-wrapper {
+		height: 100%;
+	}
+
+		.object-card .oc-slide-wrapper .oc-slide,
+		.oc-slide-wrapper .oc-slide {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			min-height: 100%;
+			min-width: 100%;
+			transition: transform 0.5s ease-in-out;
+			overflow: hidden;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: cover;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+			.object-card .oc-slide-wrapper .oc-slide:active,
+			.object-card .oc-slide-wrapper:has(button:nth-of-type(1)):active,
+			.oc-slide-wrapper .oc-slide:active {
+				filter: brightness(0.7);
+			}
+
+			.object-card .oc-slide-wrapper .oc-slide img,
+			.oc-slide-wrapper .oc-slide img {
+				width: auto;
+				max-width: 100%;
+				height: 100%;
+				object-fit: contain;
+			}
+
+		.object-card .oc-slide-wrapper > button {
+			width: 100%;
+			height: 100%;
+			background: none;
+			border: none;
+			position: absolute;
+			inset: 0px 0px 0px 0px;
+			overflow: hidden;
+			transition: 0.2s all ease-in-out;
+			cursor: pointer;
+			z-index: 1;
+		}
+
+		.object-card .oc-slide-wrapper .oc-slide-controls,
+		.oc-slide-wrapper .oc-slide-controls {
+			width: fit-content;
+			height: fit-content;
+			background: white;
+			flex-wrap: nowrap;
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%) translateY(-30%);
+			bottom: 0px;
+			border-radius: 8px;
+			gap: 0.5rem;
+			overflow: hidden;
+			justify-content: space-evenly;
+			align-items: center;
+			padding: 4px;
+			display: none;
+			transition: 0.2s all ease-in-out;
+			z-index: 2;
+		}
+
+		.object-card .oc-slide-wrapper:hover .oc-slide-controls,
+		.oc-slide-wrapper:hover .oc-slide-controls {
+			display: flex;
+		}
+
+			.object-card .oc-slide-wrapper .oc-slide-controls button,
+			.object-card .oc-slide-wrapper .oc-slide-controls a,
+			.oc-slide-wrapper .oc-slide-controls button,
+			.oc-slide-wrapper .oc-slide-controls a {
+				margin: 0px;
+				padding: 0px;
+				border: none;
+				background: white;
+				cursor: pointer;
+				display: inline-flex;
+				justify-content: center;
+				align-items: center;
+				border-radius: 50%;
+			}
+
+				.object-card .oc-slide-wrapper .oc-slide-controls button:active,
+				.object-card .oc-slide-wrapper .oc-slide-controls a:active,
+				.oc-slide-wrapper .oc-slide-controls button:active,
+				.oc-slide-wrapper .oc-slide-controls a:active {
+					background: buttonface;
+					filter: brightness(0.7);
+				}
+
+			.object-card .oc-slide-wrapper .oc-slide-controls .oc-slide-count,
+			.oc-slide-wrapper .oc-slide-controls .oc-m-slide-count {
+				font-size: smaller;
+				color: var(--app-tertiary-color);
+			}
+
+	.object-card .oc-content {
+		@apply flex-1 flex flex-col flex-nowrap p-6;
+	}
+
+		.object-card .oc-content .oc-content-header {
+			@apply leading-[1.2] text-xl font-semibold;
+		}
+
+		.object-card .oc-content .oc-content-body {
+			@apply flex-1 font-normal text-[1rem];
+		}
+
+		.object-card .oc-content .oc-content-footer {
+			@apply pt-4;
+			margin-block: auto 0px;
+		}
+
+.oc-btn {
+	@apply bg-[var(--app-primary-color)] flex w-full flex-row items-center justify-center gap-3 rounded-[2px] border-none p-2 font-bold text-[1rem] text-[1rem] text-white outline-none;
+}
+
+	.oc-btn:hover {
+		background-color: var(--app-primary-hover-color);
+	}
+
+	.oc-btn:active {
+		background-color: var(--app-primary-focus-color);
+	}

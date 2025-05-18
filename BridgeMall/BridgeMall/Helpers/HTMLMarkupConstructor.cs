@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BridgeMall.Models.Helpers
+namespace BridgeMall.Helpers
 {
 	public static class HTMLMarkupConstructor
 	{

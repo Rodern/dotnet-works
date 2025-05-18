@@ -1,11 +1,64 @@
-﻿@using System.Net.Http
+﻿@using System
+@using System.IO
+@using System.Net.Http
+@using System.Net.Http.Headers
 @using System.Net.Http.Json
+@using System.Text.RegularExpressions
+@using System.Collections.ObjectModel
+@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
 @using static Microsoft.AspNetCore.Components.Web.RenderMode
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Logging
+@using Microsoft.AspNetCore.WebUtilities
+
+@inject IWebHostEnvironment Environment
+@inject HttpClient ServerClient
+
+@using Newtonsoft.Json
+
+@using Microsoft.FluentUI.AspNetCore.Components
+@inject IDialogService DialogService
+
 @using BridgeMall
+@using BridgeMall.Authentication
 @using BridgeMall.Client
-@using BridgeMall.Components
+@using BridgeMall.Components.Layout
+@using BridgeMall.Helpers
+@*@inject CustomAuthenticationStateProvider AuthStateProvider*@
+@inject AuthenticationStateProvider AuthStateProvider
+@inject MessageBoxHelper MessageBoxHelper
+
+@using Contexts
+@using Contexts.RDB
+@using Models.Configuration
+@using Models.CRUD
+@using Models.Data
+@using Models.DbValueTypes
+@using Models.DTOs
+@using Models.Extensions
+@inject AppInfo AppInfo
+@inject AppStorageContext AppStorageContext
+@inject BridgeMallDbContext DbContext
+@inject ICrud CRUD
+@inject HostUrls HostUrls
+@inject ServerAppDataFolders ServerDataFolders
+
+@using Services.Interfaces
+@inject IAuthService AuthService
+@inject ICategoryService CategoryService
+@inject IProductService ProductService
+@inject IUserService UserService
+
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+
+@using Blazored.LocalStorage
+@inject ILocalStorageService LocalStorageService
+
+@using AutoMapper
+@inject IMapper Mapper

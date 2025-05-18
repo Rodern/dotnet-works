@@ -1,4 +1,4 @@
-﻿using BridgeMall.Models.Helpers;
+﻿using BridgeMall.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

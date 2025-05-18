@@ -33,7 +33,14 @@ namespace BridgeMall.Services.DB
 
         public ObservableCollection<Category> GetCategories(string? searchString)
         {
-            return new(_dbContext.Categories.Where(x => x.Name.ToLower().Contains(searchString!.ToLower()!)));
+			if (string.IsNullOrEmpty(searchString))
+			{
+				return new(_dbContext.Categories);
+			}
+			else
+			{
+				return new(_dbContext.Categories.Where(x => x.Name.ToLower().Contains(searchString!.ToLower())));
+			}
         }
 
         public Category GetCategory(int id)

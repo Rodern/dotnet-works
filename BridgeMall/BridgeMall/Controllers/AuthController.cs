@@ -1,5 +1,5 @@
-﻿using BridgeMall.Models.Data;
-using BridgeMall.Models.Helpers;
+﻿using BridgeMall.Helpers;
+using BridgeMall.Models.Data;
 using BridgeMall.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

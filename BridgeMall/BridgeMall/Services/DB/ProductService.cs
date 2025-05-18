@@ -44,7 +44,7 @@ namespace BridgeMall.Services.DB
 			}
 			else
 			{
-				return new(_dbContext.Products.Where(x => x.Name.ToLower().Contains(searchString.ToLower())));
+				return new(_dbContext.Products.Where(x => x.Name.ToLower().Contains(searchString!.ToLower())));
 			}
 		}
 

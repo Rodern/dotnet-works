@@ -4,7 +4,7 @@ using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 using System.Text.RegularExpressions;
 
-namespace BridgeMall.Models.Helpers
+namespace BridgeMall.Helpers
 {
 	public partial class AppUIHelper
 	{

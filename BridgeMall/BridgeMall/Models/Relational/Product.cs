@@ -19,7 +19,7 @@ public partial class Product
 
     public int InStock { get; set; }
 
-    public int Image { get; set; }
+	public string Image { get; set; } = null!;
 
     public DateTime CreatedAt { get; set; }
 

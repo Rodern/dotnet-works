@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using BridgeMall.Models.Relational;
 using Microsoft.EntityFrameworkCore;
 
-namespace BridgeMall.Contexts.RDB;
+namespace BridgeMall.DbContexts;
 
 public partial class BridgeMallDbContext : DbContext
 {
@@ -51,7 +51,7 @@ public partial class BridgeMallDbContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("icon");
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(150)
                 .HasColumnName("name");
         });
 

@@ -10,6 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2116ED50-E5BB-4973-A917-E5D95CF422DE}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		BridgeMall\docker-compose.yaml = BridgeMall\docker-compose.yaml
+		BridgeMall\Dockerfile = BridgeMall\Dockerfile
 	EndProjectSection
 EndProject
 Global

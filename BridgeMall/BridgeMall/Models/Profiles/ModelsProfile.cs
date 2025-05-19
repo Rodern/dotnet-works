@@ -10,12 +10,16 @@ namespace BridgeMall.Models.Profiles
 		{
 			CreateMap<Category, CategoryDTO>();
 			CreateMap<CategoryDTO, Category>();
+
 			CreateMap<Password, PasswordDTO>();
 			CreateMap<PasswordDTO, User>();
+
 			CreateMap<Product, ProductDTO>();
 			CreateMap<ProductDTO, Product>();
+
 			CreateMap<User, UserDTO>();
 			CreateMap<UserDTO, User>();
+			
 			CreateMap<UserToken, UserTokenDTO>();
 			CreateMap<UserTokenDTO, UserToken>();
 		}

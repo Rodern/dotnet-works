@@ -1,4 +1,4 @@
-
+SET FOREIGN_KEY_CHECKS=0;
 --
 -- Table structure for table `category`
 --
@@ -74,7 +74,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`productId`, `categoryId`, `name`, `description`, `weight`, `price`, `in_stock`, `image`, `created_at`, `updated_at`, `code`) VALUES
-(1, 1, 'Omo', 'Unilever’s largest detergent brand, OMO (also known as Persil, Skip or Surf Excel depending on where you live), believes you can’t unleash your full potential without getting stuck in and getting dirty. So embrace the glory and the grime of every step on your journey to becoming your personal best. We’ll be there to wash it all off so you can go again. ', 5.435, 17621, 31, 'https://i5.walmartimages.com/asr/5e7d8696-7d4e-4ffc-990c-f11df888b7f1.d0b80396ac9b8568ae074db461fe6d7c.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF', '2025-05-18 10:25:18', '2025-05-18 10:25:18', 762345),
+(1, 1, 'Omo', 'Unileverï¿½s largest detergent brand, OMO (also known as Persil, Skip or Surf Excel depending on where you live), believes you canï¿½t unleash your full potential without getting stuck in and getting dirty. So embrace the glory and the grime of every step on your journey to becoming your personal best. Weï¿½ll be there to wash it all off so you can go again. ', 5.435, 17621, 31, 'https://i5.walmartimages.com/asr/5e7d8696-7d4e-4ffc-990c-f11df888b7f1.d0b80396ac9b8568ae074db461fe6d7c.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF', '2025-05-18 10:25:18', '2025-05-18 10:25:18', 762345),
 (2, 1, 'Ariel', 'Ariel detergent removes stubborn stains and ensures vibrant colors in every wash.', 5.5, 18501, 20, 'https://via.placeholder.com/150?text=Ariel', '2025-05-18 10:30:00', '2025-05-18 10:30:00', 100002),
 (4, 2, 'Coca-Cola', 'Classic Coca-Cola, a refreshing soft drink enjoyed by millions worldwide.', 0.33, 200, 100, 'https://via.placeholder.com/150?text=Coca-Cola', '2025-05-18 10:35:00', '2025-05-18 10:35:00', 100003),
 (5, 2, 'Pepsi', 'Pepsi delivers a crisp, refreshing cola experience with a smooth finish.', 0.33, 240, 80, 'https://via.placeholder.com/150?text=Pepsi', '2025-05-18 10:40:00', '2025-05-18 10:40:00', 100004),
@@ -116,7 +116,6 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`userId`, `name`, `email`, `role`, `created_at`, `updated_at`) VALUES
 (8, 'string', 'fpsbi@ghb.cm', 'User', '2025-05-17 17:17:46', '2025-05-17 17:17:46'),
-(9, 'string', 'akdf@dkf.co', '', '2025-05-17 17:24:01', '2025-05-17 17:24:01'),
 (10, 'Jason Ma', 'jason@mail.com', 'User', '2025-05-18 04:00:33', '2025-05-18 04:00:33');
 
 -- --------------------------------------------------------
@@ -237,3 +236,5 @@ ALTER TABLE `product`
 --
 ALTER TABLE `user_token`
   ADD CONSTRAINT `user_token_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+SET FOREIGN_KEY_CHECKS=1;

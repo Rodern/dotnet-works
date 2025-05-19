@@ -12,6 +12,7 @@ using BridgeMall.Helpers;
 using BridgeMall.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,14 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 builder.Services.AddHttpClient();
 
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"/home/app/.aspnet/DataProtection-Keys"));
+
+if (OperatingSystem.IsWindows())
+{
+    builder.Services.AddDataProtection()
+        .ProtectKeysWithDpapi();
+}
 
 // Add controllers to the container
 builder.Services.AddControllers();

@@ -3,13 +3,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile   # Optional if your Dockerfile is named "Dockerfile"  
-    container_name: dotnet-app
+    container_name: bridge-mall-app
     ports:
-      - "8000:80"
+      - "8000:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - mysql
+    volumes:
+      - ./dataprotection:/home/app/.aspnet/DataProtection-Keys
+
 
   mysql:
     image: mysql:8.0
@@ -17,7 +20,7 @@ services:
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=#secured
-      - MYSQL_DATABASE=bridge-maill_db
+      - MYSQL_DATABASE=bridge-mall_db
       - MYSQL_USER=rodern
       - MYSQL_PASSWORD=#secured
     ports:

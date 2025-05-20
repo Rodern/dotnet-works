@@ -63,18 +63,64 @@
 		<div class="product-list">
 			@foreach (var product in Products)
 			{
-				<div class="product" id="prodcut_@(product.ProductId)">
-					<div class="product-image" style="background-image: url('@(product.Image)');" role="img" aria-label="Bag Rice"></div>
-					<div class="flex flex-col justify-between h-full py-2 px-1">
-						<h3 class="product-name truncate-1 text-lg font-semibold mb-1" title="Product name">@(product.Name)</h3>
-						<span class="price text-base font-bold text-[#0F6CBD] mb-2" aria-label="Price">XAF @(product.Price.ToString("N2"))</span>
-
-						<button class="">
-							<FluentIcon Value="new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Cart()" Color="Color.Custom" CustomColor="var(--app-primary-color)" />
-							Add to cart
-						</button>
-					</div>
+				var category = Categories.FirstOrDefault(x => x.CategoryId == product.CategoryId);
+				<div class="product group pointer rounded-lg shadow-md border border-gray-200 bg-white hover:shadow-lg transition overflow-hidden flex flex-col" id="product_@(product.ProductId)">
+        <div class="product-header relative">
+            <div class="product-image bg-cover bg-center h-48 w-full" style="background-image: url('@(product.Image)');" role="img" aria-label="@product.Name"></div>
+            <span class="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded cursor-pointer"
+                  @onmouseover="@(() => ShowCategoryCard(product.ProductId))"
+                  @onmouseout="@HideCategoryCard"
+                  @onclick="@(() => ToggleCategoryCard(product.ProductId))">
+                @category!.Name
+            </span>
+            @if (showCategoryCardForProductId == product.ProductId && category != null)
+            {
+                <div class="category-hover-card absolute z-50 bg-white shadow-lg rounded-lg p-4 border border-gray-200"
+                     style="top:2.5rem; left:0; min-width:220px;"
+                     @onmouseleave="@HideCategoryCard">
+                    <div class="flex items-center gap-2 mb-2">
+                        <img src="@category.Icon" alt="@category.Name icon" class="w-6 h-6 rounded" />
+                        <span class="font-semibold text-base">@category.Name</span>
+                    </div>
+                    <div class="text-xs text-gray-500 mb-1">Code: <span class="font-mono">@category.Code</span></div>
+                    @* Add more category details here if needed *@
+                </div>
+            }
+            <span class="product-code absolute hidden top-2 right-2 bg-gray-900/80 text-white text-xs px-2 py-1 rounded">BM-@(product.Code)</span>
+        </div>
+        <div class="product-body flex flex-col justify-between h-full p-4">
+            <h3 class="product-name truncate-2 text-lg font-bold mb-1" title="@product.Name">@product.Name</h3>
+            <p class="text-gray-600 text-[0.75rem] line-clamp-2 mb-1" title="@product.Description">@product.Description</p>
+			<div class="body-details mt-2" >
+                <span class="price text-xl font-bold text-[#0F6CBD]" aria-label="Price">XAF @product.Price.ToString("N2")</span>
+				<div class="flex flex-row items-center gap-2 text-xs text-gray-500 mb-1">
+					<span>Weight: <span class="font-medium text-gray-700">@product.Weight kg</span></span>
+					<span class="mx-2">|</span>
+					<span>Stock: 
+						@if (product.InStock > 0)
+						{
+							<span class="text-green-600 font-semibold">@product.InStock</span>
+						}
+						else
+						{
+							<span class="text-red-600 font-semibold">Out of stock</span>
+						}
+					</span>
 				</div>
+			</div>
+            <div class="flex flex-row items-center justify-between mt-4">
+                <button class="add-to-cart transition disabled:opacity-50"
+                        disabled="@(product.InStock == 0)">
+                    <FluentIcon Value="new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Cart()" Color="Color.Custom" CustomColor="var(--app-primary-color)" />
+                    Add to cart
+                </button>
+            </div>
+            @* <div class="flex flex-row justify-between text-xs text-gray-400 mt-2">
+                <span>Created: @product.CreatedAt.ToString("yyyy-MM-dd")</span>
+                <span>Updated: @product.UpdatedAt.ToString("yyyy-MM-dd")</span>
+            </div> *@
+        </div>
+    </div>
 			}
 		</div>
 	}
@@ -160,4 +206,27 @@
 		});
 		showUserMenu = false;
 	}
+
+	private int? showCategoryCardForProductId = null;
+
+    private void ShowCategoryCard(int productId)
+    {
+        showCategoryCardForProductId = productId;
+        StateHasChanged();
+    }
+
+    private void HideCategoryCard()
+    {
+        showCategoryCardForProductId = null;
+        StateHasChanged();
+    }
+
+    private void ToggleCategoryCard(int productId)
+    {
+        if (showCategoryCardForProductId == productId)
+            showCategoryCardForProductId = null;
+        else
+            showCategoryCardForProductId = productId;
+        StateHasChanged();
+    }
 }

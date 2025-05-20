@@ -1,13 +1,14 @@
 SET FOREIGN_KEY_CHECKS=0;
+
 --
 -- Table structure for table `category`
 --
 
 CREATE TABLE `category` (
-  `categoryId` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `code` varchar(6) NOT NULL,
-  `icon` varchar(150) NOT NULL
+  `categoryId` int NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `code` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
+  `icon` varchar(150) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -15,16 +16,16 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`categoryId`, `name`, `code`, `icon`) VALUES
-(1, 'Detergent', '769845', 'https://th.bing.com/th/id/OIP.nCK8wr0fbRkxHni-dpDl'),
-(2, 'Beverages', '123456', 'https://via.placeholder.com/150?text=Beverages'),
-(3, 'Snacks', '234567', 'https://via.placeholder.com/150?text=Snacks'),
-(4, 'Personal Care', '345678', 'https://via.placeholder.com/150?text=Personal+Care'),
-(5, 'Dairy Products', '456789', 'https://via.placeholder.com/150?text=Dairy+Products'),
-(6, 'Bakery Goods', '567890', 'https://via.placeholder.com/150?text=Bakery+Goods'),
-(7, 'Fresh Produce', '678901', 'https://via.placeholder.com/150?text=Fresh+Produce'),
-(8, 'Meat & Seafood', '789012', 'https://via.placeholder.com/150?text=Meat+%26+Seafood'),
-(9, 'Frozen Foods', '890123', 'https://via.placeholder.com/150?text=Frozen+Foods'),
-(10, 'Confectionery', '901234', 'https://via.placeholder.com/150?text=Confectionery');
+(1, 'Detergent', '769845', 'https://static.vecteezy.com/system/resources/thumbnails/044/245/686/small_2x/colorful-laundry-detergent-bottles-with-clean-towels-png.png'),
+(2, 'Beverages', '123456', 'https://th.bing.com/th/id/R.6df498052c293f34fd5ec7409a4bb808?rik=XSgxxlJT5Y4URQ&pid=ImgRaw&r=0'),
+(3, 'Snacks', '234567', 'https://th.bing.com/th/id/OIP.hHadASAcAMzrcPs5eWU36AHaFb?cb=iwp2&rs=1&pid=ImgDetMain'),
+(4, 'Personal Care', '345678', 'https://th.bing.com/th/id/R.01c302d771a4dbef782a52322864e0a0?rik=5cOHWFiI%2f5zgnQ&pid=ImgRaw&r=0'),
+(5, 'Dairy Products', '456789', 'https://maolamilk.com/wp-content/uploads/2019/01/2Percent_Products_Group_1.30.png'),
+(6, 'Bakery Goods', '567890', 'https://thegoldenlamb.com/wp-content/uploads/2023/06/Any-stale-bread-will-work-for-bread-pudding-1024x724.jpg'),
+(7, 'Fresh Produce', '678901', 'https://th.bing.com/th/id/OIP.owDR8tth6F913R4ae54vyAHaE8?cb=iwp2&rs=1&pid=ImgDetMain'),
+(8, 'Meat & Seafood', '789012', 'https://thumbs.dreamstime.com/b/assortment-meat-seafood-assortment-meat-seafood-beef-chicken-fish-pork-175696748.jpg'),
+(9, 'Frozen Foods', '890123', 'https://th.bing.com/th/id/OIP.bUwNTqHSqGoihmmlVnB4vwHaE7?cb=iwp2&rs=1&pid=ImgDetMain'),
+(10, 'Confectionery', '901234', 'https://www.centraldatacore.com/wp-content/uploads/Confectionery-Hard-Candy.jpg');
 
 -- --------------------------------------------------------
 
@@ -33,13 +34,13 @@ INSERT INTO `category` (`categoryId`, `name`, `code`, `icon`) VALUES
 --
 
 CREATE TABLE `password` (
-  `passwordId` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `hashed` varchar(1000) NOT NULL,
+  `passwordId` int NOT NULL,
+  `userId` int NOT NULL,
+  `hashed` varchar(1000) COLLATE utf8mb4_general_ci NOT NULL,
   `salt` varbinary(128) NOT NULL,
   `last_changed` datetime NOT NULL,
-  `past_passwords` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'This field, takes a an object like \r\n\r\n[{\r\n "hashed" "string",\r\n "salt" : byte[]\r\n}\r\n]' CHECK (json_valid(`past_passwords`))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `past_passwords` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'This field, takes a an object like \r\n\r\n[{\r\n "hashed" "string",\r\n "salt" : byte[]\r\n}\r\n]'
+) ;
 
 --
 -- Dumping data for table `password`
@@ -56,17 +57,17 @@ INSERT INTO `password` (`passwordId`, `userId`, `hashed`, `salt`, `last_changed`
 --
 
 CREATE TABLE `product` (
-  `productId` int(11) NOT NULL,
-  `categoryId` int(11) DEFAULT NULL,
-  `name` varchar(50) NOT NULL,
-  `description` varchar(500) NOT NULL,
+  `productId` int NOT NULL,
+  `categoryId` int DEFAULT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
   `weight` float NOT NULL,
-  `price` int(11) NOT NULL,
-  `in_stock` int(11) NOT NULL,
-  `image` varchar(150) NOT NULL,
+  `price` int NOT NULL,
+  `in_stock` int NOT NULL,
+  `image` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `code` int(6) NOT NULL
+  `code` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -74,26 +75,26 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`productId`, `categoryId`, `name`, `description`, `weight`, `price`, `in_stock`, `image`, `created_at`, `updated_at`, `code`) VALUES
-(1, 1, 'Omo', 'Unilever�s largest detergent brand, OMO (also known as Persil, Skip or Surf Excel depending on where you live), believes you can�t unleash your full potential without getting stuck in and getting dirty. So embrace the glory and the grime of every step on your journey to becoming your personal best. We�ll be there to wash it all off so you can go again. ', 5.435, 17621, 31, 'https://i5.walmartimages.com/asr/5e7d8696-7d4e-4ffc-990c-f11df888b7f1.d0b80396ac9b8568ae074db461fe6d7c.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF', '2025-05-18 10:25:18', '2025-05-18 10:25:18', 762345),
-(2, 1, 'Ariel', 'Ariel detergent removes stubborn stains and ensures vibrant colors in every wash.', 5.5, 18501, 20, 'https://via.placeholder.com/150?text=Ariel', '2025-05-18 10:30:00', '2025-05-18 10:30:00', 100002),
-(4, 2, 'Coca-Cola', 'Classic Coca-Cola, a refreshing soft drink enjoyed by millions worldwide.', 0.33, 200, 100, 'https://via.placeholder.com/150?text=Coca-Cola', '2025-05-18 10:35:00', '2025-05-18 10:35:00', 100003),
-(5, 2, 'Pepsi', 'Pepsi delivers a crisp, refreshing cola experience with a smooth finish.', 0.33, 240, 80, 'https://via.placeholder.com/150?text=Pepsi', '2025-05-18 10:40:00', '2025-05-18 10:40:00', 100004),
-(6, 3, 'Lays Classic Chips', 'Crispy potato chips with a perfect balance of salt and crunch.', 0.15, 300, 150, 'https://via.placeholder.com/150?text=Lays+Classic', '2025-05-18 10:45:00', '2025-05-18 10:45:00', 100005),
-(7, 3, 'Doritos Nacho Cheese', 'Bold and zesty Doritos with a rich nacho cheese flavor that excites your taste buds.', 0.2, 350, 120, 'https://via.placeholder.com/150?text=Doritos', '2025-05-18 10:50:00', '2025-05-18 10:50:00', 100006),
-(8, 4, 'Dove Beauty Bar', 'Dove soap nurtures your skin with a gentle, hydrating formula for a soft feel.', 0.09, 151, 200, 'https://via.placeholder.com/150?text=Dove+Soap', '2025-05-18 10:55:00', '2025-05-18 10:55:00', 100007),
-(9, 4, 'Nivea Moisturizing Cream', 'Nivea cream offers deep hydration, leaving your skin refreshed and smooth.', 0.25, 500, 150, 'https://via.placeholder.com/150?text=Nivea', '2025-05-18 11:00:00', '2025-05-18 11:00:00', 100008),
-(10, 5, 'Amul Milk', 'Fresh and wholesome Amul milk, sourced from quality dairy farms for everyday nutrition.', 1, 300, 50, 'https://via.placeholder.com/150?text=Amul+Milk', '2025-05-18 11:05:00', '2025-05-18 11:05:00', 100009),
-(11, 5, 'Alpen Yogurt', 'Creamy Alpen Yogurt, ideal for a healthy breakfast or a delightful snack.', 0.2, 121, 80, 'https://via.placeholder.com/150?text=Alpen+Yogurt', '2025-05-18 11:10:00', '2025-05-18 11:10:00', 100010),
-(12, 6, 'Wonder Bread', 'Wonder Bread offers a soft texture, perfect for making delightful sandwiches.', 0.5, 250, 60, 'https://via.placeholder.com/150?text=Wonder+Bread', '2025-05-18 11:15:00', '2025-05-18 11:15:00', 100011),
-(13, 6, 'Bimbo Rolls', 'Bimbo Rolls are light, flaky pastries perfect for a quick bite or a sweet treat.', 0.3, 180, 40, 'https://via.placeholder.com/150?text=Bimbo+Rolls', '2025-05-18 11:20:00', '2025-05-18 11:20:00', 100012),
-(14, 7, 'Organic Apples', 'Crunchy and naturally sweet organic apples, perfect for snacking or baking.', 1, 400, 70, 'https://via.placeholder.com/150?text=Organic+Apples', '2025-05-18 11:25:00', '2025-05-18 11:25:00', 100013),
-(15, 7, 'Fresh Carrots', 'Fresh, crisp carrots packed with nutrients, ideal for salads and snacks.', 1, 200, 100, 'https://via.placeholder.com/150?text=Fresh+Carrots', '2025-05-18 11:30:00', '2025-05-18 11:30:00', 100014),
-(16, 8, 'Chicken Breast', 'Lean chicken breast, a staple for healthy and versatile meal preparation.', 0.5, 1500, 40, 'https://via.placeholder.com/150?text=Chicken+Breast', '2025-05-18 11:35:00', '2025-05-18 11:35:00', 100015),
-(17, 8, 'Atlantic Salmon', 'Fresh Atlantic Salmon, known for its rich omega-3 fatty acids and robust flavor.', 0.75, 3500, 25, 'https://via.placeholder.com/150?text=Atlantic+Salmon', '2025-05-18 11:40:00', '2025-05-18 11:40:00', 100016),
-(18, 9, 'Pepperoni Pizza', 'A ready-to-bake pepperoni pizza with a crispy crust and savory toppings.', 0.8, 2500, 30, 'https://via.placeholder.com/150?text=Pepperoni+Pizza', '2025-05-18 11:45:00', '2025-05-18 11:45:00', 100017),
-(19, 9, 'Frozen Mixed Vegetables', 'A nutritious mix of frozen vegetables ready to enhance your meals.', 1, 1800, 50, 'https://via.placeholder.com/150?text=Mixed+Vegetables', '2025-05-18 11:50:00', '2025-05-18 11:50:00', 100018),
-(20, 10, 'Cadbury Chocolate', 'Rich and creamy Cadbury chocolate crafted for moments of indulgence.', 0.1, 300, 90, 'https://via.placeholder.com/150?text=Cadbury+Chocolate', '2025-05-18 11:55:00', '2025-05-18 11:55:00', 100019),
-(21, 10, 'Mars Bar', 'A timeless treat, Mars Bar combines caramel, nougat, and chocolate into a delicious snack.', 0.12, 350, 75, 'https://via.placeholder.com/150?text=Mars+Bar', '2025-05-18 12:00:00', '2025-05-18 12:00:00', 100020);
+(1, 1, 'Omo', 'Unileverï¿½s largest detergent brand, OMO (also known as Persil, Skip or Surf Excel depending on where you live), believes you canï¿½t unleash your full potential without getting stuck in and getting dirty. So embrace the glory and the grime of every step on your journey to becoming your personal best. Weï¿½ll be there to wash it all off so you can go again. ', 5.435, 17621, 31, 'https://i5.walmartimages.com/asr/5e7d8696-7d4e-4ffc-990c-f11df888b7f1.d0b80396ac9b8568ae074db461fe6d7c.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF', '2025-05-18 10:25:18', '2025-05-18 10:25:18', 762345),
+(2, 1, 'Ariel', 'Ariel detergent removes stubborn stains and ensures vibrant colors in every wash.', 5.5, 18501, 20, 'https://th.bing.com/th/id/R.da0e39d8a1fd94ad03156d5609fbfcac?rik=OJ21YMiQ6cBBsQ&pid=ImgRaw&r=0', '2025-05-18 10:30:00', '2025-05-18 10:30:00', 545098),
+(4, 2, 'Coca-Cola', 'Classic Coca-Cola, a refreshing soft drink enjoyed by millions worldwide.', 0.33, 200, 100, 'https://mofongorest.com/wp-content/uploads/2021/09/COCACOLA.jpg', '2025-05-18 10:35:00', '2025-05-18 10:35:00', 102937),
+(5, 2, 'Pepsi', 'Pepsi delivers a crisp, refreshing cola experience with a smooth finish.', 0.33, 240, 80, 'https://th.bing.com/th/id/OIP.gDKRcfYjof8ip_XGZTNjJAHaJu?cb=iwp2&rs=1&pid=ImgDetMain', '2025-05-18 10:40:00', '2025-05-18 10:40:00', 830989),
+(6, 3, 'Lay\'s Classic Chips', 'Crispy potato chips with a perfect balance of salt and crunch.', 0.15, 300, 150, 'https://th.bing.com/th/id/R.ba611aa4ce966684f86d27a6751fa7ba?rik=kx7L%2btv72W%2bvaA&pid=ImgRaw&r=0', '2025-05-18 10:45:00', '2025-05-18 10:45:00', 912098),
+(7, 3, 'Doritos Nacho Cheese', 'Bold and zesty Doritos with a rich nacho cheese flavor that excites your taste buds.', 0.2, 350, 120, 'https://media.nedigital.sg/fairprice/fpol/media/images/product/XL/10729188_XL1_20240110.jpg', '2025-05-18 10:50:00', '2025-05-18 10:50:00', 466801),
+(8, 4, 'Dove Beauty Bar', 'Dove soap nurtures your skin with a gentle, hydrating formula for a soft feel.', 0.09, 151, 200, 'https://i5.walmartimages.com/asr/66791361-bef3-48c8-86ca-44b8208f053f_1.0206a9607bada187f8da1cb8f700c1a6.jpeg', '2025-05-18 10:55:00', '2025-05-18 10:55:00', 311297),
+(9, 4, 'Nivea Moisturizing Cream', 'Nivea cream offers deep hydration, leaving your skin refreshed and smooth.', 0.25, 500, 150, 'https://th.bing.com/th/id/R.7da7784bc13df082fc50c75f4b1c51e1?rik=2m5eLUAVszsxuQ&pid=ImgRaw&r=0', '2025-05-18 11:00:00', '2025-05-18 11:00:00', 632560),
+(10, 5, 'Amul Milk', 'Fresh and wholesome Amul milk, sourced from quality dairy farms for everyday nutrition.', 1, 300, 50, 'https://th.bing.com/th/id/OIP.jDTiD6yluHIu9zUFAHfNGQHaHa?cb=iwp2&rs=1&pid=ImgDetMain', '2025-05-18 11:05:00', '2025-05-18 11:05:00', 919036),
+(11, 5, 'Alpen Yogurt', 'Creamy Alpen Yogurt, ideal for a healthy breakfast or a delightful snack.', 0.2, 121, 80, 'https://th.bing.com/th/id/R.0b738c30790223aeaf50f941e6a39a1b?rik=La7coOe5EX9lLw&pid=ImgRaw&r=0', '2025-05-18 11:10:00', '2025-05-18 11:10:00', 434567),
+(12, 6, 'Wonder Bread', 'Wonder Bread offers a soft texture, perfect for making delightful sandwiches.', 0.5, 250, 60, 'https://i5.walmartimages.com/asr/5fee7417-0974-44da-a16c-155a1281fdaf_1.360b4f304b379c51fd98dc590701b4c9.jpeg', '2025-05-18 11:15:00', '2025-05-18 11:15:00', 651811),
+(13, 6, 'Bimbo Rolls', 'Bimbo Rolls are light, flaky pastries perfect for a quick bite or a sweet treat.', 0.3, 180, 40, 'https://th.bing.com/th/id/OIP.9PjtwAEvt-cpDdKz9HFJOwHaHa?cb=iwp2&rs=1&pid=ImgDetMain', '2025-05-18 11:20:00', '2025-05-18 11:20:00', 190312),
+(14, 7, 'Organic Apples', 'Crunchy and naturally sweet organic apples, perfect for snacking or baking.', 1, 400, 70, 'https://th.bing.com/th/id/OIP.Bt_8LhqSgf9A5Z1CCfsqrwHaE8?cb=iwp2&w=768&h=512&rs=1&pid=ImgDetMain', '2025-05-18 11:25:00', '2025-05-18 11:25:00', 878987),
+(15, 7, 'Fresh Carrots', 'Fresh, crisp carrots packed with nutrients, ideal for salads and snacks.', 1, 200, 100, 'https://th.bing.com/th/id/OIP.NQoblU6aVDk4w-pjm_mqRgHaGD?cb=iwp2&rs=1&pid=ImgDetMain', '2025-05-18 11:30:00', '2025-05-18 11:30:00', 949196),
+(16, 8, 'Chicken Breast', 'Lean chicken breast, a staple for healthy and versatile meal preparation.', 0.5, 1500, 40, 'https://th.bing.com/th/id/OIP.xTVqnZzj7ijX5xqGk-vazAHaHa?cb=iwp2&rs=1&pid=ImgDetMain', '2025-05-18 11:35:00', '2025-05-18 11:35:00', 500380),
+(17, 8, 'Atlantic Salmon', 'Fresh Atlantic Salmon, known for its rich omega-3 fatty acids and robust flavor.', 0.75, 3500, 25, 'https://th.bing.com/th/id/R.1167e74f1a9b284649fe46ddebb6f632?rik=frWY3BvnrG58cg&pid=ImgRaw&r=0', '2025-05-18 11:40:00', '2025-05-18 11:40:00', 861016),
+(18, 9, 'Pepperoni Pizza', 'A ready-to-bake pepperoni pizza with a crispy crust and savory toppings.', 0.8, 2500, 30, 'https://th.bing.com/th/id/OIP.ydICQiGCRZECpd96F2D8pAHaFN?cb=iwp2&rs=1&pid=ImgDetMain', '2025-05-18 11:45:00', '2025-05-18 11:45:00', 831700),
+(19, 9, 'Frozen Mixed Vegetables', 'A nutritious mix of frozen vegetables ready to enhance your meals.', 1, 1800, 50, 'https://th.bing.com/th/id/OIP.zypUdPBUTKT30vsYMalduwHaHa?cb=iwp2&rs=1&pid=ImgDetMain', '2025-05-18 11:50:00', '2025-05-18 11:50:00', 304567),
+(20, 10, 'Cadbury Chocolate', 'Rich and creamy Cadbury chocolate crafted for moments of indulgence.', 0.1, 300, 90, 'https://th.bing.com/th/id/R.8265f5c712093d4e576a782248e4bdc9?rik=f0%2fezu6HQWSNRg&pid=ImgRaw&r=0', '2025-05-18 11:55:00', '2025-05-18 11:55:00', 703873),
+(21, 10, 'Mars Bar', 'A timeless treat, Mars Bar combines caramel, nougat, and chocolate into a delicious snack.', 0.12, 350, 75, 'https://th.bing.com/th/id/OIP.3vTW6beDGuIZutP71jS9JAHaHa?cb=iwp2&rs=1&pid=ImgDetMain', '2025-05-18 12:00:00', '2025-05-18 12:00:00', 331020);
 
 -- --------------------------------------------------------
 
@@ -102,10 +103,10 @@ INSERT INTO `product` (`productId`, `categoryId`, `name`, `description`, `weight
 --
 
 CREATE TABLE `user` (
-  `userId` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `role` enum('User','Admin','Dev') NOT NULL,
+  `userId` int NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `role` enum('User','Admin','Dev') COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -125,9 +126,9 @@ INSERT INTO `user` (`userId`, `name`, `email`, `role`, `created_at`, `updated_at
 --
 
 CREATE TABLE `user_token` (
-  `user_tokenId` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `token` varchar(500) NOT NULL,
+  `user_tokenId` int NOT NULL,
+  `userId` int NOT NULL,
+  `token` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
   `expiry_date` datetime NOT NULL,
   `date_created` datetime NOT NULL,
   `last_modified` datetime NOT NULL
@@ -189,31 +190,31 @@ ALTER TABLE `user_token`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `categoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `categoryId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `password`
 --
 ALTER TABLE `password`
-  MODIFY `passwordId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `passwordId` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `productId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `productId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `userId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user_token`
 --
 ALTER TABLE `user_token`
-  MODIFY `user_tokenId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_tokenId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
